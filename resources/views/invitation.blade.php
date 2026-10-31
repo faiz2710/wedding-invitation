@@ -189,7 +189,12 @@
                     id="sealButton"
                     aria-label="Buka undangan"
                 >
-                    <span class="envelope__seal-mark" aria-hidden="true">A<small>&amp;</small>I</span>
+                    <img
+                        src="{{ asset('images/bulat.PNG') }}"
+                        class="envelope__seal-img"
+                        alt=""
+                        aria-hidden="true"
+                    >
                     <span class="envelope__seal-label">Buka undangan</span>
                 </button>
 
@@ -303,9 +308,9 @@
             
             <!-- Container Card Utama (Ungu) -->
             <div class="mempelai__card-wrapper">
-                <img 
-                    src="{{ asset('images/calon-merah.png') }}" 
-                    alt="Kartu Mempelai Alif dan Indy" 
+                <img
+                    src="{{ asset('images/calon-merah-card.png') }}"
+                    alt="Kartu Mempelai Alif dan Indy"
                     class="mempelai__card-img"
                 >
             </div>
@@ -389,7 +394,7 @@
             </div>
 
             <div class="details__actions" data-reveal="rise">
-                <button type="button" class="button button--ghost" id="addToCalendar">
+                <button type="button" class="button button--light" id="addToCalendar">
                     <svg class="icon" aria-hidden="true"><use href="#i-plus-cal"/></svg>
                     Simpan ke kalender
                 </button>

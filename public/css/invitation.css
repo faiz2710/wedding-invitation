@@ -672,64 +672,72 @@ a {
     transform: rotateX(180deg);
 }
 
-/* Wax seal (di ujung flap) — diganti lukisan CSS agar pasti selalu tampil
-   dan tidak pernah broken image (tidak tergantung file gambar / case path). */
+/* Wax seal (di ujung flap) — memakai bulat.PNG agar hasilnya detail
+   dan tetap aman di semua lingkungan (nama file mengikuti aslinya). */
 
 .envelope__seal {
     top: 67%;
     left: 50%;
     z-index: 5;
 
-    width: 19%;
-    height: auto;
+    display: grid;
+    place-items: center;
+
+    width: 25%;
     aspect-ratio: 1 / 1;
 
     margin: 0;
     padding: 0;
 
-    border: none;
-    border-radius: 50%;
-
-    background:
-        radial-gradient(circle at 30% 30%, #c9a85e 0%, #8b4153 40%, #431322 100%);
-    border: 1px solid rgba(0, 0, 0, 0.35);
-
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.45),
-        inset 0 2px 0 rgba(201, 168, 94, 0.5),
-        inset 0 -3px 8px rgba(0, 0, 0, 0.4);
-
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+    border: 0;
+    background: transparent;
+    box-shadow: none;
 
     translate: -50% -50%;
 
+    filter: drop-shadow(0 6px 10px rgba(40, 10, 20, 0.45));
+
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+
+    animation: seal-breathe 3.4s ease-in-out infinite;
 
     transition:
-        transform 0.4s var(--ease),
+        scale 0.35s var(--ease),
+        rotate 0.35s var(--ease),
         opacity 0.3s ease;
 }
 
-.envelope__seal-mark {
-    color: #fbf5e8;
-    font-family: var(--sans);
-    font-size: 0.5em;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1.15;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
-    opacity: 0.95;
+/* Cahaya lembut di belakang stempel supaya terlihat hidup. */
+.envelope__seal::before {
+    position: absolute;
+    inset: -12%;
+    z-index: -1;
+
+    content: "";
+
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(211, 185, 136, 0.6),
+        rgba(211, 185, 136, 0) 68%
+    );
+
+    opacity: 0.3;
+
+    animation: seal-glow 3.4s ease-in-out infinite;
+
+    pointer-events: none;
 }
 
-.envelope__seal-mark small {
-    font-size: 0.7em;
-    font-weight: 400;
-    opacity: 0.8;
+.envelope__seal-img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    pointer-events: none;
+    user-select: none;
 }
 
 .envelope__seal-label {
@@ -744,29 +752,63 @@ a {
     border: 0;
 }
 
-.envelope__seal:hover {
-    transform: scale(1.07) rotate(-4deg);
+@media (hover: hover) {
+    .envelope__seal:hover {
+        scale: 1.08;
+        rotate: -5deg;
+    }
 }
 
+/* Stempel "terlepas" dengan lembut saat amplop dibuka. */
 .opening.is-opening .envelope__seal {
-    opacity: 0;
-    transform: scale(0.4) rotate(20deg);
+    animation: seal-break 0.7s var(--ease) forwards;
     pointer-events: none;
 }
 
-/* Animasi mempera ketika surat sudah terbuka */
-.envelope.is-open .envelope__seal {
-    animation: seal-float 2.6s ease-in-out infinite;
-}
-
-@keyframes seal-float {
+@keyframes seal-breathe {
     0%,
     100% {
-        transform: translateY(0);
+        scale: 1;
     }
 
     50% {
-        transform: translateY(-7px);
+        scale: 1.035;
+    }
+}
+
+@keyframes seal-glow {
+    0%,
+    100% {
+        opacity: 0.24;
+        scale: 0.96;
+    }
+
+    50% {
+        opacity: 0.55;
+        scale: 1.04;
+    }
+}
+
+@keyframes seal-break {
+    0% {
+        opacity: 1;
+        scale: 1;
+        rotate: 0deg;
+        translate: -50% -50%;
+    }
+
+    28% {
+        opacity: 1;
+        scale: 1.12;
+        rotate: -7deg;
+        translate: -50% -50%;
+    }
+
+    100% {
+        opacity: 0;
+        scale: 0.55;
+        rotate: 16deg;
+        translate: -50% -130%;
     }
 }
 
@@ -1548,6 +1590,7 @@ a {
     position: relative;
     width: 100%;
     min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1557,11 +1600,11 @@ a {
     overflow: hidden;
 }
 
-/* Container untuk Gambar Card (calon-merah.png) */
+/* Container untuk Gambar Card (calon-merah-card.png) */
 .mempelai__card-wrapper {
     position: relative;
     width: 100%;
-    max-width: 660px;
+    max-width: 560px;
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -1593,17 +1636,24 @@ a {
 /* Responsi untuk Layar HP (Mobile) */
 @media (max-width: 576px) {
     .mempelai-section {
-        padding: 40px 15px;
+        padding: 36px 10px 44px;
     }
 
     .mempelai__card-wrapper {
+        width: 100%;
         max-width: 100%;
     }
 
+    .mempelai__card-img {
+        width: 100%;
+    }
+
     .mempelai__vas-img {
-        width: 55%;
-        left: -25px;
-        bottom: -15px;
+        width: 43%;
+        max-width: 220px;
+        min-width: 150px;
+        left: -22px;
+        bottom: 76px;
     }
 }
 
@@ -1866,10 +1916,10 @@ a {
 
 .details__content {
     position: absolute;
-    top: 12%;
-    right: 20%;
-    bottom: 14%;
-    left: 20%;
+    top: 10%;
+    right: 18%;
+    bottom: 12%;
+    left: 18%;
 
     display: flex;
     flex-direction: column;
@@ -1893,7 +1943,7 @@ a {
 }
 
 .event__name {
-    margin: 6px 0 0;
+    margin: 4px 0 0;
 
     color: var(--burgundy);
 
@@ -1904,7 +1954,7 @@ a {
 }
 
 .event__date {
-    margin: 8px 0 0;
+    margin: 6px 0 0;
 
     color: var(--burgundy);
 
@@ -1922,7 +1972,7 @@ a {
 }
 
 .event__venue {
-    margin: 10px 0 0;
+    margin: 8px 0 0;
 
     color: var(--burgundy);
 
@@ -1938,6 +1988,7 @@ a {
 
     font-size: clamp(12px, 3.9cqw, 15px);
     font-style: italic;
+    line-height: 1.5;
 }
 
 .event__rule {
@@ -1945,6 +1996,8 @@ a {
     height: 1px;
 
     align-self: center;
+
+    margin: 8px 0;
 
     background: var(--gold);
 }
@@ -1978,10 +2031,10 @@ a {
 
 .location__content {
     position: absolute;
-    top: 27%;
-    right: 17%;
-    bottom: 30%;
-    left: 17%;
+    top: 22%;
+    right: 22%;
+    bottom: 20%;
+    left: 22%;
 
     display: flex;
     align-items: center;
@@ -1997,7 +2050,7 @@ a {
     color: var(--paper);
 
     font-family: var(--serif);
-    font-size: clamp(17px, 4.6cqw, 26px);
+    font-size: clamp(13px, 4.6cqw, 26px);
     font-weight: 500;
     line-height: 1.2;
 }
@@ -2007,18 +2060,29 @@ a {
 
     color: rgba(251, 245, 232, 0.85);
 
-    font-size: clamp(10px, 2.7cqw, 14px);
+    font-size: clamp(9.5px, 2.7cqw, 14px);
     font-style: italic;
-    line-height: 1.55;
+    line-height: 1.4;
 }
 
 .location__button {
-    margin-top: 2cqw;
+    flex: none;
 
-    font-size: clamp(10px, 2.4cqw, 13px);
+    gap: clamp(5px, 1cqw, 8px);
+
+    margin-top: 1.5cqw;
+
+    font-size: clamp(10px, 2cqw, 13px);
     min-height: 0;
 
-    padding: clamp(7px, 1.9cqw, 11px) clamp(16px, 3.8cqw, 21px);
+    padding: clamp(8px, 1.6cqw, 11px) clamp(12px, 2.6cqw, 18px);
+
+    white-space: nowrap;
+}
+
+.location__button .icon {
+    width: clamp(16px, 2.8cqw, 20px);
+    height: clamp(16px, 2.8cqw, 20px);
 }
 
 /* Bunga menempel di sudut kartu */

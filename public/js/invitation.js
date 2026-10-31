@@ -535,22 +535,35 @@
         var timer = null;
         var delay = 4500;
 
-        // Titik navigasi dibuat mengikuti jumlah slide
-        var dotElements = slides.map(function (_, i) {
-            var dot = document.createElement("button");
+        // Satu foto (atau tanpa navigasi) tidak perlu timer/dots.
+        if (slides.length < 2) {
+            if (slides[0]) {
+                slides[0].classList.add("is-active");
+            }
 
-            dot.type = "button";
-            dot.className = "moments__dot";
-            dot.setAttribute("aria-label", "Foto " + (i + 1));
+            return;
+        }
 
-            dot.addEventListener("click", function () {
-                goTo(i);
+        // Titik navigasi dibuat mengikuti jumlah slide (jika wadahnya ada)
+        var dotElements = [];
+
+        if (dots) {
+            dotElements = slides.map(function (_, i) {
+                var dot = document.createElement("button");
+
+                dot.type = "button";
+                dot.className = "moments__dot";
+                dot.setAttribute("aria-label", "Foto " + (i + 1));
+
+                dot.addEventListener("click", function () {
+                    goTo(i);
+                });
+
+                dots.appendChild(dot);
+
+                return dot;
             });
-
-            dots.appendChild(dot);
-
-            return dot;
-        });
+        }
 
         function render() {
             slides.forEach(function (slide, i) {
