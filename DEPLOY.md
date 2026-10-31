@@ -44,7 +44,7 @@ php artisan key:generate
 
 ### Langkah 1 — Push kode ke GitHub
 
-Repo sudah ada di `https://github.com/zyaaaaaa939/wedding-invitaion`, branch `main` sudah sinkron. Tinggal:
+Kode lengkap (termasuk semua file deploy ini) sudah di-push ke `https://github.com/faiz2710/wedding-invitaion`. Setelah itu, setiap kali mau update isi undangan:
 
 ```powershell
 git add .
@@ -88,7 +88,7 @@ Yang **sudah dibake di Dockerfile** dan tidak perlu di-set (tapi bisa dioverride
 ### Langkah 4 — Import project ke Vercel
 
 1. Buka https://vercel.com → login pakai GitHub.
-2. **Add New → Project** → pilih import repo `zyaaaaaa939/wedding-invitaion`.
+2. **Add New → Project** → pilih import repo `faiz2710/wedding-invitaion`.
 3. Framework preset: biarkan auto-detect (file `vercel.json` sudah bilang ini container service — kalau ditanya, pilih **Other**).
 4. Confirm build settings default (jangan ubah Build Command / Output Directory — vercel.json yang pegang kontrol).
 5. **Deploy**.
