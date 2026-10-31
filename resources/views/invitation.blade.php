@@ -190,7 +190,7 @@
                     aria-label="Buka undangan"
                 >
                     <img
-                        src="{{ asset('images/bulat.png') }}"
+                        src="{{ asset('images/bulat.PNG') }}"
                         class="envelope__seal-img"
                         alt="Mempera"
                         aria-hidden="true"
