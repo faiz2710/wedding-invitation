@@ -1628,7 +1628,7 @@ a {
     max-width: 280px;
     min-width: 180px;
     height: auto;
-    z-index: 3; /* Berada di atas layer card-calon.png */
+    z-index: 3;
     pointer-events: none;
     filter: drop-shadow(4px 4px 12px rgba(0, 0, 0, 0.35));
 }
@@ -1649,11 +1649,11 @@ a {
     }
 
     .mempelai__vas-img {
-        width: 43%;
+        width: 37%;
         max-width: 220px;
         min-width: 150px;
         left: -22px;
-        bottom: 76px;
+        bottom: 45px;
     }
 }
 
