@@ -672,7 +672,8 @@ a {
     transform: rotateX(180deg);
 }
 
-/* Wax seal (di ujung flap) — gambar bulat.png */
+/* Wax seal (di ujung flap) — diganti lukisan CSS agar pasti selalu tampil
+   dan tidak pernah broken image (tidak tergantung file gambar / case path). */
 
 .envelope__seal {
     top: 67%;
@@ -688,26 +689,47 @@ a {
 
     border: none;
     border-radius: 50%;
-    overflow: hidden;
 
-    background: transparent;
+    background:
+        radial-gradient(circle at 30% 30%, #c9a85e 0%, #8b4153 40%, #431322 100%);
+    border: 1px solid rgba(0, 0, 0, 0.35);
 
-    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.45),
+        inset 0 2px 0 rgba(201, 168, 94, 0.5),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.4);
+
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
 
     translate: -50% -50%;
 
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     transition:
         transform 0.4s var(--ease),
         opacity 0.3s ease;
 }
 
-.envelope__seal-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.envelope__seal-mark {
+    color: #fbf5e8;
+    font-family: var(--sans);
+    font-size: 0.5em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.15;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    opacity: 0.95;
+}
+
+.envelope__seal-mark small {
+    font-size: 0.7em;
+    font-weight: 400;
+    opacity: 0.8;
 }
 
 .envelope__seal-label {

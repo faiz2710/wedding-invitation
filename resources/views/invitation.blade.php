@@ -124,7 +124,7 @@
          images/bunga-back.png          (bunga dasar halaman)
          images/bunga-atas.png          (bunga kiri-atas amplop)
          images/bunga-bawah.png         (bunga kanan-bawah amplop)
-         images/bulat.png               (wax seal)
+         (stempel mahkota digambar CSS, tanpa file gambar)
     ========================================== --}}
     <div
         class="opening"
@@ -189,13 +189,8 @@
                     id="sealButton"
                     aria-label="Buka undangan"
                 >
-                    <img
-                        src="{{ asset('images/bulat.PNG') }}"
-                        class="envelope__seal-img"
-                        alt="Mempera"
-                        aria-hidden="true"
-                    >
-                    <span class="envelope__seal-label">A<small>&amp;</small>I</span>
+                    <span class="envelope__seal-mark" aria-hidden="true">A<small>&amp;</small>I</span>
+                    <span class="envelope__seal-label">Buka undangan</span>
                 </button>
 
                 {{-- Bunga menempel di amplop --}}
