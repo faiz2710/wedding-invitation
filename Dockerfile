@@ -1,48 +1,51 @@
-# STAGE 1: BUILD FRONTEND
-FROM node:22-alpine AS frontend
+# Deploy Laravel ke Vercel Container Runtime.
+# Mengikuti panduan resmi Vercel "Deploy Laravel on Vercel with Docker".
+FROM dunglas/frankenphp:1-php8.4-bookworm AS base
+
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && install-php-extensions intl zip pdo_mysql pdo_pgsql
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+FROM base AS dependencies
 
-COPY . .
-RUN npm run build
-
-
-# STAGE 2: LARAVEL
-FROM serversideup/php:8.4-fpm-nginx
-
-USER root
-
-WORKDIR /var/www/html
-
-COPY . .
-
-COPY --from=frontend /app/public/build ./public/build
-
-# Install PHP dependencies
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY composer.json composer.lock ./
 RUN composer install \
     --no-dev \
     --no-interaction \
-    --prefer-dist \
-    --optimize-autoloader
+    --no-progress \
+    --no-scripts \
+    --optimize-autoloader \
+    --prefer-dist
 
-# Laravel permissions
+COPY . .
 RUN mkdir -p \
-    storage/framework/cache \
-    storage/framework/sessions \
-    storage/framework/views \
-    storage/logs \
-    bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache
+        storage/framework/cache \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs \
+        bootstrap/cache \
+    && composer dump-autoload --no-dev --classmap-authoritative \
+    && php artisan event:cache \
+    && php artisan view:cache
 
-ENV APP_ENV=production
-ENV APP_DEBUG=false
-ENV SSL_MODE=off
-ENV NGINX_WEBROOT=/var/www/html/public
-ENV PHP_OPCACHE_ENABLE=1
+FROM base AS runtime
+
+COPY --from=dependencies --chown=www-data:www-data /app /app
+COPY --chown=www-data:www-data Caddyfile /etc/frankenphp/Caddyfile
+
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp \
+    && chown -R www-data:www-data /config/caddy /data/caddy
+
+ENV PORT=80 \
+    APP_ENV=production \
+    APP_DEBUG=false \
+    LOG_CHANNEL=stderr \
+    CACHE_STORE=array \
+    SESSION_DRIVER=cookie \
+    QUEUE_CONNECTION=sync
 
 USER www-data
 
-EXPOSE 8080
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]

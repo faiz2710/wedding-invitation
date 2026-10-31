@@ -1,0 +1,14 @@
+.git
+.github
+.vercel
+.env
+.env.*
+!.env.example
+database/database.sqlite
+node_modules
+tests
+vendor
+AGENTS.md
+CLAUDE.md
+DEPLOY.md
+test-output.html
