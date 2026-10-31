@@ -189,7 +189,13 @@
                     id="sealButton"
                     aria-label="Buka undangan"
                 >
-                    <span>A<small>&amp;</small>I</span>
+                    <img
+                        src="{{ asset('images/bulat.png') }}"
+                        class="envelope__seal-img"
+                        alt="Mempera"
+                        aria-hidden="true"
+                    >
+                    <span class="envelope__seal-label">A<small>&amp;</small>I</span>
                 </button>
 
                 {{-- Bunga menempel di amplop --}}

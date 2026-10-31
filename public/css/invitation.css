@@ -672,7 +672,7 @@ a {
     transform: rotateX(180deg);
 }
 
-/* Wax seal (di ujung flap) */
+/* Wax seal (di ujung flap) — gambar bulat.png */
 
 .envelope__seal {
     top: 67%;
@@ -687,15 +687,10 @@ a {
     padding: 0;
 
     border: none;
-    border-radius: 0;
+    border-radius: 50%;
+    overflow: hidden;
 
-    background:
-        url("/images/bulat.png")
-        center / contain
-        no-repeat;
-
-    color: transparent;
-    font-size: 0;
+    background: transparent;
 
     filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
 
@@ -708,6 +703,25 @@ a {
         opacity 0.3s ease;
 }
 
+.envelope__seal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.envelope__seal-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .envelope__seal:hover {
     transform: scale(1.07) rotate(-4deg);
 }
@@ -716,6 +730,22 @@ a {
     opacity: 0;
     transform: scale(0.4) rotate(20deg);
     pointer-events: none;
+}
+
+/* Animasi mempera ketika surat sudah terbuka */
+.envelope.is-open .envelope__seal {
+    animation: seal-float 2.6s ease-in-out infinite;
+}
+
+@keyframes seal-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
 }
 
 /* Bunga yang menempel di amplop */
@@ -1505,11 +1535,11 @@ a {
     overflow: hidden;
 }
 
-/* Container untuk Gambar Card Ungu (card-calon.png) */
+/* Container untuk Gambar Card (calon-merah.png) */
 .mempelai__card-wrapper {
     position: relative;
     width: 100%;
-    max-width: none;
+    max-width: 660px;
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -1517,6 +1547,7 @@ a {
 
 .mempelai__card-img {
     width: 100%;
+    max-width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
