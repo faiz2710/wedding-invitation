@@ -2522,6 +2522,7 @@ a {
 
     transform: translateX(-50%) rotate(-3deg);
     -webkit-mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 7px) 0 0 / 100% 100% no-repeat;
+    mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 7px) 0 0 / 100% 100% no-repeat;
 }
 
 .paper-card__tape--rose {

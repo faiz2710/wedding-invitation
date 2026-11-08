@@ -6,7 +6,7 @@
     | Satu tempat untuk data yang mudah diubah. Elemen tanpa data akan
     | menampilkan teks pengganti yang aman (tanpa mengarang informasi).
     */
-    $musicSrc = asset('audio/Akad.mp3');
+    $musicSrc = asset('audio/Muara.MP3');
 
     // Tanggal hari pernikahan (target countdown).
     $weddingDateIso = '2026-11-28T00:00:00+07:00';
